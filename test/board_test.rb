@@ -28,4 +28,15 @@ class BoardTest < Minitest::Test
     refute board.valid_coordinate?("A5")
   end
 
+  def test_for_valid_ship_placement_based_on_length
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    refute board.valid_placement?(cruiser, ["A1", "A2"])
+    assert board.valid_placement?(submarine, ["A1", "A2"])
+    refute board.valid_placement?(submarine, ["A1", "A2", "A3"])
+    assert board.valid_placement?(cruiser, ["A1", "A2", "A3"])
+  end
+
 end
