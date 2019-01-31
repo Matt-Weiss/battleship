@@ -33,10 +33,19 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
+# binding.pry
     refute board.valid_placement?(cruiser, ["A1", "A2"])
     assert board.valid_placement?(submarine, ["A1", "A2"])
     refute board.valid_placement?(submarine, ["A1", "A2", "A3"])
     assert board.valid_placement?(cruiser, ["A1", "A2", "A3"])
+  end
+
+  def test_a_thing
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    board.valid_adjacencies(submarine)
   end
 
 end
