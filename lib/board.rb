@@ -1,4 +1,5 @@
 class Board
+
   attr_reader :x_dimension, :y_dimension, :cells
 
   def initialize(x_dimension = 4, y_dimension = 4)
@@ -24,6 +25,7 @@ class Board
   def valid_coordinate?(coordinate)
     cells.has_key?(coordinate)
   end
+
 
   def valid_length?(ship, coordinate_array)
     coordinate_array.length == ship.length

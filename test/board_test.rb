@@ -34,6 +34,7 @@ class BoardTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
 
 
+
     refute board.valid_length?(cruiser, ["A1", "A2"])
     assert board.valid_length?(submarine, ["A1", "A2"])
     refute board.valid_length?(submarine, ["A1", "A2", "A3"])
@@ -41,6 +42,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_for_valid_ships_in_one_row
+
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
