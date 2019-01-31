@@ -17,14 +17,19 @@ class Board
     cells.has_key?(coordinate)
   end
 
-  def valid_adjacencies(ship)
-    x_cons =(((65.chr)..((@x_dimension+64).chr)).each_cons(ship.length)).to_a
-    y_cons =(((1.to_s)..(@y_dimension.to_s)).each_cons(ship.length)).to_a
-binding.pry
+  def valid_adjacencies?(ship, coordinate_array)
+    test_same_column = (coordinate_array.collect{|coord| coord.chr}.uniq.length) == 1
+    test_sequential_rows = (coordinate_array.collect{|coord| coord.reverse.chr.to_i}.sort.each_cons(ship.length)).all? {|x,y| y == x + 1}
+    test_same_row = (coordinate_array.collect{|coord| coord.reverse.chr.to_i}.uniq.length) == 1
+    test_sequential_columns = coordinate_array.collect{|coord| coord.chr.ord}.sort.each_cons(ship.length).all? {|x,y| y == x + 1}
+
+    valid_adjacency = (test_same_column && test_sequential_rows) || (test_sequential_columns && test_same_row)
+    binding.pry
   end
 
   def valid_placement?(ship, coordinate_array)
-    coordinate_array.length == ship.length
+    (coordinate_array.length == ship.length) && (valid_adjacencies?(ship, coordinate_array))
+
   end
 
 
