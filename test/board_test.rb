@@ -61,4 +61,27 @@ class BoardTest < Minitest::Test
     refute board.sequential_rows?(submarine, ["A1", "A2"])
     refute board.sequential_rows?(cruiser, ["A1", "A2", "A3"])
   end
+
+  def test_for_valid_ships_in_same_column
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    assert board.same_column?(cruiser, ["A1", "B1", "C1"])
+    assert board.same_column?(submarine, ["A1", "B1"])
+    refute board.same_column?(submarine, ["A1", "A2"])
+    refute board.same_column?(cruiser, ["A1", "A2", "A3"])
+  end
+
+  def test_for_valid_ships_in_sequential_columns
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    refute board.sequential_columns?(cruiser, ["A1", "B1", "C1"])
+    refute board.sequential_columns?(submarine, ["A1", "B1"])
+    assert board.sequential_columns?(submarine, ["A1", "A2"])
+    assert board.sequential_columns?(cruiser, ["A1", "A2", "A3"])
+  end
+
 end

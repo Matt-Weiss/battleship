@@ -15,9 +15,12 @@ class Board
     y_array = @y_range.to_a
 
     cells_array_raw = x_array.product(y_array)
-    cells_array = cells_array_raw.collect {|coordinate| coordinate.join}
-
-    valid_cells_array = cells_array.collect {|coordinate| {coordinate => Cell.new(coordinate)}}
+    cells_array = cells_array_raw.collect do
+      |coordinate| coordinate.join
+    end
+    valid_cells_array = cells_array.collect do |coordinate|
+      {coordinate => Cell.new(coordinate)}
+    end
     valid_cells = valid_cells_array.inject(:merge)
   end
 
@@ -30,31 +33,44 @@ class Board
   end
 
   def same_row?(ship, coordinate_array)
-    collect_letters = coordinate_array.collect{|coord| coord.chr}
+    collect_letters = coordinate_array.collect do |coord|
+      coord.chr
+    end
     collect_letters.uniq.length == 1
   end
 
   def sequential_rows?(ship, coordinate_array)
-    collect_letters = coordinate_array.collect{|coord| coord.chr}
+    collect_letters = coordinate_array.collect do |coord|
+      coord.chr
+    end
     possible_x = []
-    @x_range.each_cons(ship.length){|cons| possible_x << cons }
+    @x_range.each_cons(ship.length) do |cons|
+      possible_x << cons
+    end
     possible_x.include?(collect_letters.sort)
   end
 
-  # def same_column?(ship, coordinate_array)
-  #   collect_row = coordinate_array.collect{|coord| coord.reverse.chr.to_i}
-  #   verify_same_row = collect_row.uniq.length == 1
-  # end
+  def same_column?(ship, coordinate_array)
+    collect_column = coordinate_array.collect do |coord|
+      coord.reverse.chr.to_i
+    end
+    verify_same_row = collect_column.uniq.length == 1
+  end
   #
-  # def sequential_columns?(ship, coordinate_array)
-  #   collect_rows = coordinate_array.collect{|coord| coord.reverse.chr.to_i}
-  #   sort_rows = collect_rows.sort
-  #   verify_rows = sort_rows.all? {|x,y| y == x + 1}
-  # end
+  def sequential_columns?(ship, coordinate_array)
+    collect_columns = coordinate_array.collect do |coord|
+      coord.reverse.chr
+    end
+    possible_y = []
+    @y_range.each_cons(ship.length) do |cons|
+      possible_y << cons
+    end
+    possible_y.include?(collect_columns.sort)
+  end
   #
-  # def valid_adjacencies?(ship, coordinate_array)
-  #   valid_adjacency = (same_column? && sequential_rows?) || (sequential_columns? && same_row?)
-  # end
+  def valid_adjacencies?(ship, coordinate_array)
+    valid_adjacency = (same_column? && sequential_rows?) || (sequential_columns? && same_row?)
+  end
   #
   # def valid_placement?(ship, coordinate_array)
   #
