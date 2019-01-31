@@ -33,23 +33,34 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
-# binding.pry
-    refute board.valid_placement?(cruiser, ["A1", "A2"])
-    assert board.valid_placement?(submarine, ["A1", "A2"])
-    refute board.valid_placement?(submarine, ["A1", "A2", "A3"])
-    assert board.valid_placement?(cruiser, ["A1", "A2", "A3"])
+
+
+    refute board.valid_length?(cruiser, ["A1", "A2"])
+    assert board.valid_length?(submarine, ["A1", "A2"])
+    refute board.valid_length?(submarine, ["A1", "A2", "A3"])
+    assert board.valid_length?(cruiser, ["A1", "A2", "A3"])
   end
 
-  def test_for_valid_ship_placement_based_on_adjacency
-    # skip
+  def test_for_valid_ships_in_one_row
+
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
-    # binding.pry
-    refute board.valid_placement?(cruiser, ["A1", "A2", "A4"])
-    assert board.valid_placement?(submarine, ["A1", "B1"])
-
+    refute board.same_row?(cruiser, ["A1", "B1", "C1"])
+    assert board.same_row?(submarine, ["A1", "A2"])
+    refute board.same_row?(submarine, ["A1", "B1"])
+    assert board.same_row?(cruiser, ["A1", "A2", "A3"])
   end
 
+  def test_for_valid_ships_in_sequential_rows
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    assert board.sequential_rows?(cruiser, ["A1", "B1", "C1"])
+    assert board.sequential_rows?(submarine, ["A1", "B1"])
+    refute board.sequential_rows?(submarine, ["A1", "A2"])
+    refute board.sequential_rows?(cruiser, ["A1", "A2", "A3"])
+  end
 end

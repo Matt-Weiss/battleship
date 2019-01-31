@@ -60,7 +60,7 @@ class CellTest < Minitest::Test
     assert_equal "M", cell_1.render
   end
 
-  def test_renders_with_ship_in_cell
+  def test_renders_hit_with_ship_in_cell
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
