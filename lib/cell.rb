@@ -29,13 +29,13 @@ attr_reader :coordinate, :ship, :fired_upon
 
   def render(player = false)
     if !fired_upon? && empty? == false && player == true
-      "S"
+      print "S"
     elsif fired_upon? && empty? == false
-      "H"
+      print "H"
     elsif fired_upon?
-      "M"
+      print "M"
     else
-      "."
+      print "."
     end
   end
 
