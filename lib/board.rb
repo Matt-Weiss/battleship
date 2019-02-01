@@ -56,7 +56,7 @@ class Board
     end
     verify_same_row = collect_column.uniq.length == 1
   end
-  #
+
   def sequential_columns?(ship, coordinate_array)
     collect_columns = coordinate_array.collect do |coord|
       coord.reverse.chr
@@ -67,13 +67,32 @@ class Board
     end
     possible_y.include?(collect_columns.sort)
   end
-  #
-  def valid_adjacencies?(ship, coordinate_array)
-    valid_adjacency = (same_column? && sequential_rows?) || (sequential_columns? && same_row?)
-  end
-  #
-  # def valid_placement?(ship, coordinate_array)
-  #
-  # end
 
+  def valid_adjacencies?(ship, coordinate_array)
+    (same_column?(ship, coordinate_array) &&
+    sequential_rows?(ship, coordinate_array)) ||
+    (sequential_columns?(ship, coordinate_array) &&
+    same_row?(ship, coordinate_array))
+  end
+
+  def overlap?(ship, coordinate_array)
+    overlap_check = coordinate_array.select do |coord|
+      @cells[coord].empty?
+    end
+    overlap_check.length != coordinate_array.length
+  end
+
+  def place(ship, coordinate_array)
+    if valid_placement?(ship, coordinate_array)
+      coordinate_array.each do |coord|
+        @cells[coord].place_ship(ship)
+      end
+    end
+  end
+
+  def valid_placement?(ship, coordinate_array)
+    valid_adjacencies?(ship, coordinate_array) &&
+    !overlap?(ship, coordinate_array) &&
+    valid_length?(ship, coordinate_array)
+  end
 end

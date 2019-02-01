@@ -84,4 +84,49 @@ class BoardTest < Minitest::Test
     assert board.sequential_columns?(cruiser, ["A1", "A2", "A3"])
   end
 
+  def test_combined_adjacency
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    assert board.valid_adjacencies?(cruiser, ["A1", "B1", "C1"])
+    assert board.valid_adjacencies?(submarine, ["A1", "B1"])
+    assert board.valid_adjacencies?(submarine, ["A1", "A2"])
+    assert board.valid_adjacencies?(cruiser, ["A1", "A2", "A3"])
+    refute board.valid_adjacencies?(cruiser, ["A1", "C1", "C1"])
+    refute board.valid_adjacencies?(submarine, ["A1", "B4"])
+    refute board.valid_adjacencies?(submarine, ["A1", "B2"])
+    refute board.valid_adjacencies?(cruiser, ["A1", "D2", "A3"])
+  end
+
+  def test_for_overlap
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    board.place(cruiser, ["A1", "B1", "C1"])
+
+    assert board.overlap?(submarine, ["A1", "B1"])
+  # binding.pry
+  end
+
+
+  def test_total_valid_placement
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    board.place(cruiser, ["A1", "B1", "C1"])
+
+    assert board.valid_placement?(submarine, ["A2", "B2"]) #general test
+    assert board.valid_placement?(submarine, ["A3", "A2"]) #reverse test
+    refute board.valid_placement?(cruiser, ["D1", "C1", "B1"]) #reverse test
+    refute board.valid_placement?(cruiser, ["B2", "C3", "D4"]) #diagonal test
+    refute board.valid_placement?(submarine, ["B2", "C3"]) #diagonal test
+    refute board.valid_placement?(cruiser, ["A1", "A2"]) #length test
+    refute board.valid_placement?(cruiser, ["C1", "C2", "C3"]) #overlap test
+    refute board.valid_placement?(cruiser, ["A1", "A2", "A3"]) #overlap test
+  end
+
+
 end
