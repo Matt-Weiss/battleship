@@ -130,5 +130,16 @@ class BoardTest < Minitest::Test
     refute board.valid_placement?(cruiser, ["A1", "A2", "A3"]) #overlap test
   end
 
+  def test_render
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    board.place(cruiser, ["A1", "B1", "C1"])
+
+    binding.pry
+
+  end
+
 
 end
