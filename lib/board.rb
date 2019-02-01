@@ -9,13 +9,13 @@ class Board
   end
 
   def build_cells
-    @x_range = (65.chr)..((@x_dimension+64).chr)
-    x_array = @x_range.to_a
-
-    @y_range = (1.to_s)..(@y_dimension.to_s)
+    @y_range = (65.chr)..((@y_dimension+64).chr)
     y_array = @y_range.to_a
 
-    cells_array_raw = x_array.product(y_array)
+    @x_range = (1.to_s)..(@x_dimension.to_s)
+    x_array = @x_range.to_a
+
+    cells_array_raw = y_array.product(x_array)
     cells_array = cells_array_raw.collect do
       |coordinate| coordinate.join
     end
@@ -45,11 +45,11 @@ class Board
     collect_letters = coordinate_array.collect do |coord|
       coord.chr
     end
-    possible_x = []
-    @x_range.each_cons(ship.length) do |cons|
-      possible_x << cons
+    possible_y = []
+    @y_range.each_cons(ship.length) do |cons|
+      possible_y << cons
     end
-    possible_x.include?(collect_letters.sort)
+    possible_y.include?(collect_letters.sort)
   end
 
   def same_column?(ship, coordinate_array)
@@ -63,11 +63,11 @@ class Board
     collect_columns = coordinate_array.collect do |coord|
       coord.reverse.chr
     end
-    possible_y = []
-    @y_range.each_cons(ship.length) do |cons|
-      possible_y << cons
+    possible_x = []
+    @x_range.each_cons(ship.length) do |cons|
+      possible_x << cons
     end
-    possible_y.include?(collect_columns.sort)
+    possible_x.include?(collect_columns.sort)
   end
 
   def valid_adjacencies?(ship, coordinate_array)
@@ -96,5 +96,10 @@ class Board
     valid_adjacencies?(ship, coordinate_array) &&
     !overlap?(ship, coordinate_array) &&
     valid_length?(ship, coordinate_array)
+  end
+
+  def render(player = false)
+
+
   end
 end
