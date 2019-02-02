@@ -54,14 +54,14 @@ class Board
 
   def same_column?(ship, coordinate_array)
     collect_column = coordinate_array.collect do |coord|
-      coord.reverse.chr.to_i
+      coord.slice(1,2).to_i
     end
     verify_same_row = collect_column.uniq.length == 1
   end
 
   def sequential_columns?(ship, coordinate_array)
     collect_columns = coordinate_array.collect do |coord|
-      coord.reverse.chr
+      coord.slice(1,2)
     end
     possible_x = []
     @x_range.each_cons(ship.length) do |cons|
