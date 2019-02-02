@@ -109,7 +109,6 @@ class BoardTest < Minitest::Test
     board.place(cruiser, ["A1", "B1", "C1"])
 
     assert board.overlap?(submarine, ["A1", "B1"])
-  # binding.pry
   end
 
 
@@ -131,16 +130,15 @@ class BoardTest < Minitest::Test
   end
 
   def test_render
-    skip
+    # skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
     board.place(cruiser, ["A1", "B1", "C1"])
     expected = "  1  2  3  4  \nA .  .  .  .  \nB .  .  .  .  \nC .  .  .  .  \nD .  .  .  .  \n"
-    binding.pry
-    # assert_equal expected, board.render
-
+    # binding.pry
+    assert_equal expected, board.render
   end
 
 
