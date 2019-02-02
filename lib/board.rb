@@ -107,7 +107,7 @@ class Board
       print cell_keys[0].chr
       print " "
         @x_dimension.times do
-        cells[cell_keys[0]].render(player)
+        print cells[cell_keys[0]].render(player)
         print "  "
         cell_keys.shift
         end
