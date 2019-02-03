@@ -121,7 +121,7 @@ class BoardTest < Minitest::Test
 
     assert board.valid_placement?(submarine, ["A2", "B2"]) #general test
     assert board.valid_placement?(submarine, ["A3", "A2"]) #reverse test
-    refute board.valid_placement?(cruiser, ["D1", "C1", "B1"]) #reverse test
+    refute board.valid_placement?(cruiser, ["D4", "B3", "A2"]) #ship everywhere test
     refute board.valid_placement?(cruiser, ["B2", "C3", "D4"]) #diagonal test
     refute board.valid_placement?(submarine, ["B2", "C3"]) #diagonal test
     refute board.valid_placement?(cruiser, ["A1", "A2"]) #length test
