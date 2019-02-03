@@ -15,6 +15,7 @@ class ComputerTest < Minitest::Test
   end
 
   def test_it_can_fire_on_cell
+    skip
     computer = Computer.new
     computer_board = Board.new
     player_board = Board.new
@@ -22,7 +23,7 @@ class ComputerTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
 
     computer.fire(player_board)
-    binding.pry
+    # binding.pry
 
   end
 
@@ -31,14 +32,14 @@ class ComputerTest < Minitest::Test
   end
 
   def test_it_can_place_valid_ships
-    skip
+    # skip
     computer = Computer.new
     computer_board = Board.new
     player_board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
-# binding.pry
+binding.pry
     computer.place_ship(cruiser, computer_board)
   end
 

@@ -28,7 +28,9 @@ attr_reader :coordinate, :ship, :fired_upon
   end
 
   def render(player = false)
-    if !fired_upon? && empty? == false && player == true
+    if empty? == false && ship.sunk?
+      "X"
+    elsif !fired_upon? && empty? == false && player == true
       "S"
     elsif fired_upon? && empty? == false
       "H"

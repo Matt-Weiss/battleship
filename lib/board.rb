@@ -45,32 +45,27 @@ class Board
     collect_letters = coordinate_array.collect do |coord|
       coord.chr
     end
-    possible_y = []
-    @y_range.each_cons(ship.length) do |cons|
-      possible_y << cons
-    end
+    possible_y = @y_range.each_cons(ship.length)
     possible_y.include?(collect_letters.sort)
   end
 
   def same_column?(ship, coordinate_array)
     collect_column = coordinate_array.collect do |coord|
-      coord.slice(1,2).to_i
+      coord.slice(1,2)
     end
-    verify_same_row = collect_column.uniq.length == 1
+    collect_column.uniq.length == 1
   end
 
   def sequential_columns?(ship, coordinate_array)
     collect_columns = coordinate_array.collect do |coord|
       coord.slice(1,2)
     end
-    possible_x = []
-    @x_range.each_cons(ship.length) do |cons|
-      possible_x << cons
-    end
+    possible_x = @x_range.each_cons(ship.length)
     possible_x.include?(collect_columns.sort)
   end
 
   def valid_adjacencies?(ship, coordinate_array)
+    #This also covers the diagonal check
     (same_column?(ship, coordinate_array) &&
     sequential_rows?(ship, coordinate_array)) ||
     (sequential_columns?(ship, coordinate_array) &&
