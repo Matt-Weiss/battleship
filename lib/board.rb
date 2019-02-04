@@ -19,10 +19,11 @@ class Board
     cells_array = cells_array_raw.collect do
       |coordinate| coordinate.join
     end
-    valid_cells_array = cells_array.collect do |coordinate|
-      {coordinate => Cell.new(coordinate)}
+    cells_hash = {}
+    cells_array.each do |coord|
+      cells_hash[coord] = Cell.new(coord)
     end
-    valid_cells = valid_cells_array.inject(:merge)
+    cells_hash
   end
 
   def valid_coordinate?(coordinate)
