@@ -5,6 +5,7 @@ require './lib/ship'
 require './lib/cell'
 require './lib/board'
 require './lib/computer'
+require './lib/messaging'
 
 class ComputerTest < Minitest::Test
 
@@ -15,32 +16,58 @@ class ComputerTest < Minitest::Test
   end
 
   def test_it_can_fire_on_cell
-    skip
     computer = Computer.new
-    computer_board = Board.new
     player_board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
     computer.fire(player_board)
-    # binding.pry
 
+    cells_fired_on = player_board.cells.select do |key, value|
+      player_board.cells[key].fired_upon?
+    end
+
+    assert_equal 1, cells_fired_on.length
   end
 
   def test_it_wont_fire_on_same_cell_twice
-    skip
-  end
-
-  def test_it_can_place_valid_ships
-    # skip
     computer = Computer.new
-    computer_board = Board.new
     player_board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
-binding.pry
+    16.times do
+    computer.fire(player_board)
+    end
+
+    cells_fired_on = player_board.cells.select do |key, value|
+      player_board.cells[key].fired_upon?
+    end
+
+    assert_equal 16, cells_fired_on.length
+  end
+
+  def test_it_can_place_valid_ships
+    computer = Computer.new
+    computer_board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    cells_with_ship = computer_board.cells.select do |key, value|
+      computer_board.cells[key].empty? == false
+    end
+
+    assert_equal 0, cells_with_ship.length
+
     computer.place_ship(cruiser, computer_board)
+
+    cells_with_ship = computer_board.cells.select do |key, value|
+      computer_board.cells[key].empty? == false
+    end
+
+    assert_equal 3, cells_with_ship.length
+
+
   end
 
 end
