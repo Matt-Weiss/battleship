@@ -138,6 +138,7 @@ class BoardTest < Minitest::Test
     board.place(cruiser, ["A1", "B1", "C1"])
     board.cells["A1"].fire_upon
     board.cells["D1"].fire_upon
+    # binding.pry
 
     assert_equal "H", board.cells["A1"].render
     assert_equal "S", board.cells["B1"].render(true)
@@ -145,5 +146,18 @@ class BoardTest < Minitest::Test
     assert_equal ".", board.cells["A2"].render
   end
 
+  def test_full_board_render
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    board.place(cruiser, ["A1", "B1", "C1"])
+    board.cells["A1"].fire_upon
+    board.cells["D1"].fire_upon
+
+    expected = "  1  2  3  4  \nA H  .  .  .  \nB .  .  .  .  \nC .  .  .  .  \nD M  .  .  .  \n"
+
+    assert_equal expected, board.render
+  end
 
 end

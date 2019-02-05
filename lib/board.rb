@@ -95,20 +95,22 @@ class Board
   end
 
   def render(player = false)
+    cells_array = []
     cell_keys = cells.keys
-    print "  "
-    @x_range.each {|x| print x + "  " }
-    print "\n"
+    cells_array <<  "  "
+    @x_range.each {|x| cells_array << x + "  " }
+    cells_array <<  "\n"
     @y_dimension.times do
-      print cell_keys[0].chr
-      print " "
+      cells_array << cell_keys[0].chr
+      cells_array << " "
         @x_dimension.times do
-        print cells[cell_keys[0]].render(player)
-        print "  "
+        cells_array << cells[cell_keys[0]].render(player)
+        cells_array << "  "
         cell_keys.shift
         end
-      print "\n"
+    cells_array << "\n"
     end
+    p cells_array.join
+    # binding.pry
   end
-
 end
