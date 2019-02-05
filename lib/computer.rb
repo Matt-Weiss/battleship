@@ -4,12 +4,54 @@ class Computer
     @messaging = Messaging.new
   end
 
-  def place_ship(ship, computer_board)
-    possible_placements = []
-    while !computer_board.valid_placement?(ship, possible_placements) do
-      possible_placements = computer_board.cells.keys.sample(ship.length)
+  def smart_same_row?(coordinate_array)
+    collect_letters = coordinate_array.collect do |coord|
+      coord.chr
     end
-    computer_board.place(ship, possible_placements)
+    collect_letters.uniq.length == 1
+  end
+
+  def smart_sequential_rows?(coordinate_array, computer_board)
+    collect_letters = coordinate_array.collect do |coord|
+      coord.chr
+    end
+    possible_y = computer_board.y_range.each_cons(coordinate_array.length)
+    possible_y.include?(collect_letters.sort)
+  end
+
+  def smart_same_column?(coordinate_array)
+    collect_column = coordinate_array.collect do |coord|
+      coord.slice(1,2)
+    end
+    collect_column.uniq.length == 1
+  end
+
+  def smart_sequential_columns?(coordinate_array, computer_board)
+    collect_columns = coordinate_array.collect do |coord|
+      coord.slice(1,2)
+    end
+    possible_x = computer_board.x_range.each_cons(coordinate_array.length)
+    possible_x.include?(collect_columns.sort)
+  end
+
+  def valid_adjacencies?(coordinate_array, computer_board)
+    (smart_same_column?(coordinate_array) &&
+    smart_sequential_rows?(coordinate_array, computer_board)) ||
+    (smart_sequential_columns?(coordinate_array, computer_board) &&
+    smart_same_row?(coordinate_array))
+  end
+
+  def place_ship(ship, computer_board, smart_placement = [])
+    until computer_board.valid_placement?(ship, smart_placement) do
+      smart_placement = [computer_board.cells.keys.sample(1)[0]]
+      until smart_placement.length == ship.length do
+        smart_placement << computer_board.cells.keys.sample(1)[0]
+        if !valid_adjacencies?(smart_placement, computer_board)
+          smart_placement.pop
+        end
+      end
+    end
+    computer_board.place(ship, smart_placement)
   end
 
   def fire(player_board)

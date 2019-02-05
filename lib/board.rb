@@ -1,6 +1,6 @@
 class Board
 
-  attr_reader :x_dimension, :y_dimension, :cells
+  attr_reader :x_dimension, :y_dimension, :cells, :x_range, :y_range
 
   def initialize(x_dimension = 4, y_dimension = 4)
     @x_dimension = x_dimension
@@ -110,6 +110,7 @@ class Board
         end
     cells_array << "\n"
     end
+
     print cells_array.join
     cells_array.join
   end

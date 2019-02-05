@@ -66,8 +66,26 @@ class ComputerTest < Minitest::Test
     end
 
     assert_equal 3, cells_with_ship.length
+  end
 
+  def test_it_can_place_large_ships_on_large_board
+    computer = Computer.new
+    computer_board = Board.new(10,10)
+    carrier = Ship.new("Carrier", 5)
 
+    cells_with_ship = computer_board.cells.select do |key, value|
+      computer_board.cells[key].empty? == false
+    end
+
+    assert_equal 0, cells_with_ship.length
+
+    computer.place_ship(carrier, computer_board)
+
+    cells_with_ship = computer_board.cells.select do |key, value|
+      computer_board.cells[key].empty? == false
+    end
+
+    assert_equal 5, cells_with_ship.length
   end
 
 end
