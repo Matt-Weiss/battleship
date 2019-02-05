@@ -113,22 +113,4 @@ class Board
     p cells_array.join
     # binding.pry
   end
-
-  # def render(player = false)
-  #   cell_keys = cells.keys
-  #   print "  "
-  #   @x_range.each {|x| print x + "  " }
-  #   print "\n"
-  #   @y_dimension.times do
-  #     print cell_keys[0].chr
-  #     print " "
-  #       @x_dimension.times do
-  #       print cells[cell_keys[0]].render(player)
-  #       print "  "
-  #       cell_keys.shift
-  #       end
-  #     print "\n"
-  #   end
-  # end
-
 end
