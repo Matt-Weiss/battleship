@@ -5,7 +5,6 @@ attr_reader :coordinate, :ship, :fired_upon
     @coordinate = coordinate
     @ship = nil
     @fired_upon = false
-    @render = "."
   end
 
   def empty?

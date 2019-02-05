@@ -136,9 +136,13 @@ class BoardTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
 
     board.place(cruiser, ["A1", "B1", "C1"])
-    expected = "  1  2  3  4  \nA .  .  .  .  \nB .  .  .  .  \nC .  .  .  .  \nD .  .  .  .  \n"
-    # binding.pry
-    assert_equal expected, board.render
+    board.cells["A1"].fire_upon
+    board.cells["D1"].fire_upon
+
+    assert_equal "H", board.cells["A1"].render
+    assert_equal "S", board.cells["B1"].render(true)
+    assert_equal "M", board.cells["D1"].render
+    assert_equal ".", board.cells["A2"].render
   end
 
 
