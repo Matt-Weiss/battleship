@@ -3,6 +3,7 @@ require 'minitest/pride'
 require './lib/board'
 require './lib/messaging'
 require './lib/game'
+require './lib/ship'
 
 class MessagingTest < Minitest::Test
 
@@ -47,5 +48,16 @@ class MessagingTest < Minitest::Test
     message = Messaging.new
     actual = message.computer_shot_sinks("C2")
     assert_equal "Aye, my shot on C2 sunk your ship!", actual
+  end
+
+  def test_ships_available
+    message = Messaging.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+    ships_array = [cruiser, submarine]
+    actual = message.ships_available(ships_array)
+    expected = "The Submarine occupies 2 cells."
+
+    assert_equal expected, actual
   end
 end
