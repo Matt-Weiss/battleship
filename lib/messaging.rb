@@ -7,6 +7,20 @@ class Messaging
     puts ""
   end
 
+  def choose_board_size
+    puts "You can choose from the following board size: "
+    puts "For 4x4 board enter 1."
+    puts "For 10x10 board enter 2."
+    print "Please enter your choice, 1 or 2: "
+  end
+
+  def invalid_board_size
+    puts "That was an invalid choice."
+    puts "For 4x4 board enter 1."
+    puts "For 10x10 board enter 2."
+    print "Please enter your choice, 1 or 2: "
+  end
+
   def computer_ships_placed
     puts ""
     puts "I have placed my ships. Now it's your turn."
@@ -14,23 +28,22 @@ class Messaging
     puts ""
   end
 
+  def ships_available(ship_array)
+    puts "We each get #{ship_array.length} ships."
+    ship_array.each do |ship|
+      puts "The #{ship.name} occupies #{ship.length} cells."
+    end
+  end
 
   def player_ship_placement_instruction
-    puts "We each get two ships, one cruiser and one submarine."
-    puts "The cruiser occupies three cells."
-    puts "The submarine occupies two cells."
     puts "------------------------------------------------------"
     puts "Enter your coordinates in the following format: "
     puts "(example: C2 C3 C4 for cruiser or A1 B1 for submarine)"
     puts "-" * 25
   end
 
-  def player_valid_coordinates_cruiser
-    puts "Enter coordinates for your cruiser: "
-  end
-
-  def player_valid_coordinates_submarine
-    puts "Enter coordinates for your submarine: "
+  def player_valid_coordinates_ship(ship)
+    puts "Enter coordinates for your #{ship.name}: "
   end
 
   def player_invalid_coordinates
