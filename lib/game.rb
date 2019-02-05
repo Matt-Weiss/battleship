@@ -1,5 +1,5 @@
 class Game
-  
+
   def initialize
     @messaging = Messaging.new
     @player_board = Board.new
@@ -11,7 +11,7 @@ class Game
     play_quit = nil
     while play_quit != "p" && play_quit != "q" do
       @messaging.welcome_message
-      play_quit = gets.chomp
+      play_quit = gets.chomp.downcase
     end
     if play_quit == "p"
       game_play
@@ -32,8 +32,10 @@ class Game
     end
 
     if computer_board_health == 0
+      boards_rendered
       @messaging.player_wins
     else
+      boards_rendered
       @messaging.computer_wins
     end
 
@@ -66,7 +68,7 @@ class Game
     until @player_board.valid_placement?(cruiser, placement_array) do
         @messaging.player_invalid_coordinates
         @messaging.player_valid_coordinates_cruiser
-        cruiser_placement = gets.chomp
+        cruiser_placement = gets.upcase.chomp
         placement_array = cruiser_placement.split(" ")
       end
       @player_board.place(cruiser, placement_array)
@@ -81,7 +83,7 @@ class Game
     until @player_board.valid_placement?(submarine, placement_array) do
         @messaging.player_invalid_coordinates
         @messaging.player_valid_coordinates_cruiser
-        submarine_placement = gets.chomp
+        submarine_placement = gets.upcase.chomp
         placement_array = submarine_placement.split(" ")
       end
       @player_board.place(submarine, placement_array)
@@ -97,11 +99,11 @@ class Game
 
   def player_turn
     @messaging.player_fires_upon
-    player_shot = gets.chomp
+    player_shot = gets.upcase.chomp
     until @computer_board.valid_coordinate?(player_shot) do
       @messaging.player_invalid_coordinates_to_fire_upon
       @messaging.player_fires_upon
-      player_shot = gets.chomp
+      player_shot = gets.upcase.chomp
     end
     @computer_board.cells[player_shot].fire_upon
   #following is feedback for shots fired by player
