@@ -12,6 +12,7 @@ class Game
     while play_quit != "p" && play_quit != "q" do
       @messaging.welcome_message
       play_quit = gets.chomp.downcase
+      sleep(0.75)
     end
     if play_quit == "p"
       game_play
@@ -23,9 +24,12 @@ class Game
   def game_play
     computer_ship_placement
     player_ship_placement
+    sleep(1.5)
     @messaging.ready_to_play
+    sleep(0.75)
 
     while player_board_health > 0 && computer_board_health > 0
+      sleep(1)
       boards_rendered
       player_turn
       computer_turn
@@ -49,6 +53,7 @@ class Game
     @computer.place_ship(cruiser, @computer_board)
     @computer.place_ship(submarine, @computer_board)
     @messaging.computer_ships_placed
+    sleep(0.75)
   end
 
   def player_ship_placement
@@ -72,6 +77,7 @@ class Game
         placement_array = cruiser_placement.split(" ")
       end
       @player_board.place(cruiser, placement_array)
+      sleep(0.75)
       @player_board.render(true)
   end
 
@@ -87,6 +93,7 @@ class Game
         placement_array = submarine_placement.split(" ")
       end
       @player_board.place(submarine, placement_array)
+      sleep(0.75)
       @player_board.render(true)
   end
 
@@ -100,6 +107,7 @@ class Game
   def player_turn
     @messaging.player_fires_upon
     player_shot = gets.upcase.chomp
+    sleep(0.75)
     until @computer_board.valid_coordinate?(player_shot) do
       @messaging.player_invalid_coordinates_to_fire_upon
       @messaging.player_fires_upon
@@ -109,10 +117,13 @@ class Game
   #following is feedback for shots fired by player
     if @computer_board.cells[player_shot].render == "X"
       @messaging.player_sinks_ship(player_shot)
+      sleep(0.5)
     elsif @computer_board.cells[player_shot].render == "H"
       @messaging.player_shot_hits(player_shot)
+      sleep(0.5)
     else
       @messaging.player_shot_missed(player_shot)
+      sleep(0.5)
     end
   end
 
