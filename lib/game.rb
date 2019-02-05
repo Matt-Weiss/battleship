@@ -2,9 +2,8 @@ class Game
 
   def initialize
     @messaging = Messaging.new
-    @player_board = Board.new
-    @computer_board = Board.new
     @computer = Computer.new
+    @ships = []
   end
 
   def run
@@ -14,16 +13,82 @@ class Game
       play_quit = gets.chomp.downcase
       sleep(0.75)
     end
+
     if play_quit == "p"
-      game_play
+
+      @messaging.choose_board_size
+      board_selection = gets.chomp
+
+      until board_selection == "1" || board_selection == "2"
+        @messaging.invalid_board_size
+        @messaging.choose_board_size
+        board_selection = gets.chomp
+      end
+
+      if board_selection == "1"
+        game_setup_small
+      else board_selection == "2"
+        game_setup_standard
+      end
+
     else
       @messaging.game_ends
     end
   end
 
-  def game_play
+  def computer_ship_placement
+    @ships.each do |ship|
+      @computer.place_ship(ship, @computer_board)
+    end
+    @messaging.computer_ships_placed
+    sleep(0.75)
+  end
+
+  def game_setup_small
+    @player_board = Board.new
+    @computer_board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+    @ships = [cruiser, submarine]
     computer_ship_placement
-    player_ship_placement
+    player_places_ships
+  end
+
+  def game_setup_standard
+    @player_board = Board.new(10,10)
+    @computer_board = Board.new(10,10)
+    destroyer = Ship.new("Destroyer", 2)
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 3)
+    battleship = Ship.new("Battleship", 4)
+    carrier = Ship.new("Aircraft Carrier", 5)
+    @ships = [destroyer, cruiser, submarine, battleship, carrier]
+    computer_ship_placement
+    player_places_ships
+  end
+
+  def player_places_ships
+    @messaging.ships_available(@ships)
+    @messaging.player_ship_placement_instruction
+    @player_board.render(true)
+    @ships.each do |ship|
+      @messaging.player_valid_coordinates_ship(ship)
+      ship_placement = gets.upcase.chomp
+      placement_array = ship_placement.split(" ")
+
+      until @player_board.valid_placement?(submarine, placement_array) do
+        @messaging.player_invalid_coordinates
+        @messaging.player_valid_coordinates_ship(ship)
+        ship_placement = gets.upcase.chomp
+        placement_array = ship_placement.split(" ")
+      end
+      @player_board.place(ship, placement_array)
+      sleep(0.75)
+      @player_board.render(true)
+    end
+  end
+
+  def game_play
     sleep(1.5)
     @messaging.ready_to_play
     sleep(0.75)
@@ -45,56 +110,6 @@ class Game
 
     @messaging.play_again
     run
-  end
-
-  def computer_ship_placement
-    cruiser = Ship.new("Cruiser", 3)
-    submarine = Ship.new("Submarine", 2)
-    @computer.place_ship(cruiser, @computer_board)
-    @computer.place_ship(submarine, @computer_board)
-    @messaging.computer_ships_placed
-    sleep(0.75)
-  end
-
-  def player_ship_placement
-    cruiser = Ship.new("Cruiser", 3)
-    submarine = Ship.new("Submarine", 2)
-    @messaging.player_ship_placement_instruction
-    @player_board.render(true)
-    player_places_cruiser
-    player_places_submarine
-  end
-
-  def player_places_cruiser
-    cruiser = Ship.new("Cruiser", 3)
-    @messaging.player_valid_coordinates_cruiser
-    cruiser_placement = gets.upcase.chomp
-    placement_array = cruiser_placement.split(" ")
-    until @player_board.valid_placement?(cruiser, placement_array) do
-        @messaging.player_invalid_coordinates
-        @messaging.player_valid_coordinates_cruiser
-        cruiser_placement = gets.upcase.chomp
-        placement_array = cruiser_placement.split(" ")
-      end
-      @player_board.place(cruiser, placement_array)
-      sleep(0.75)
-      @player_board.render(true)
-  end
-
-  def player_places_submarine
-    submarine = Ship.new("Submarine", 2)
-    @messaging.player_valid_coordinates_submarine
-    submarine_placement = gets.upcase.chomp
-    placement_array = submarine_placement.split(" ")
-    until @player_board.valid_placement?(submarine, placement_array) do
-        @messaging.player_invalid_coordinates
-        @messaging.player_valid_coordinates_cruiser
-        submarine_placement = gets.upcase.chomp
-        placement_array = submarine_placement.split(" ")
-      end
-      @player_board.place(submarine, placement_array)
-      sleep(0.75)
-      @player_board.render(true)
   end
 
   def boards_rendered
