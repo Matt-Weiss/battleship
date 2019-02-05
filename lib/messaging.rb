@@ -66,32 +66,32 @@ class Messaging
 
   def player_shot_missed(cell)
     puts ""
-    puts "Your shot on #{cell} was a miss."
+    p "Your shot on #{cell} was a miss."
   end
 
   def player_shot_hits(cell)
     puts ""
-    puts "Your shot on #{cell} hit me!"
+    p "Your shot on #{cell} hit me!"
   end
 
   def player_sinks_ship(cell)
     puts ""
-    puts "Blimey! Your shot on #{cell} sunk me ship!"
+    p "Blimey! Your shot on #{cell} sunk me ship!"
   end
 
   def computer_shot_missed(cell)
     puts ""
-    puts "My shot on #{cell} was a miss."
+    p "My shot on #{cell} was a miss."
   end
 
   def computer_shot_hits(cell)
     puts ""
-    puts "My shot on #{cell} was hit."
+    p "My shot on #{cell} was hit."
   end
 
   def computer_shot_sinks(cell)
     puts ""
-    puts "Aye, my shot on #{cell} sunk your ship!"
+    p "Aye, my shot on #{cell} sunk your ship!"
   end
 
   def player_wins

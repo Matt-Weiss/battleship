@@ -110,6 +110,8 @@ class Board
         end
     cells_array << "\n"
     end
-    p cells_array.join
+
+    print cells_array.join
+    cells_array.join
   end
 end
