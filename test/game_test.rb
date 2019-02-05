@@ -20,7 +20,11 @@ class GameTest < MiniTest::Test
     game.run
 
     #need to test that when player enters p, game starts with welcome message.
-    #need to test that player quits when q is entered.
+    #need to test that game quits when q is entered.
+  end
+
+  def test_did_player_choose_correct_format_for_coordinates
+  #make sure it's not something like 1A
   end
 
   def test_computer_ships_placed_correctly
@@ -31,5 +35,23 @@ class GameTest < MiniTest::Test
 
   end
 
+  def test_computer_fired_successfully
 
+  end
+
+  def test_player_fired_successfully
+
+  end
+
+  def test_computer_can_sink_player_ship
+
+  end
+
+  def test_player_can_sink_computer_ship
+
+  end
+
+  def test_game_has_ended
+
+  end
 end
