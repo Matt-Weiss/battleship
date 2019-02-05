@@ -1,5 +1,5 @@
 class Game
-
+  
   def initialize
     @messaging = Messaging.new
     @player_board = Board.new
@@ -14,7 +14,7 @@ class Game
       play_quit = gets.chomp
     end
     if play_quit == "p"
-      game_play #name of next step method that places the ships.
+      game_play
     else
       @messaging.game_ends
     end
@@ -61,7 +61,7 @@ class Game
   def player_places_cruiser
     cruiser = Ship.new("Cruiser", 3)
     @messaging.player_valid_coordinates_cruiser
-    cruiser_placement = gets.chomp
+    cruiser_placement = gets.upcase.chomp
     placement_array = cruiser_placement.split(" ")
     until @player_board.valid_placement?(cruiser, placement_array) do
         @messaging.player_invalid_coordinates
@@ -76,7 +76,7 @@ class Game
   def player_places_submarine
     submarine = Ship.new("Submarine", 2)
     @messaging.player_valid_coordinates_submarine
-    submarine_placement = gets.chomp
+    submarine_placement = gets.upcase.chomp
     placement_array = submarine_placement.split(" ")
     until @player_board.valid_placement?(submarine, placement_array) do
         @messaging.player_invalid_coordinates
