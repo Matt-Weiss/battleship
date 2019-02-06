@@ -3,7 +3,8 @@ class Game
   def initialize
     @messaging = Messaging.new
     @computer = Computer.new
-    @ships = []
+    @player_ships = []
+    @computer_ships = []
   end
 
   def run
@@ -15,7 +16,6 @@ class Game
     end
 
     if play_quit == "p"
-
       @messaging.choose_board_size
       board_selection = gets.chomp
 
@@ -36,22 +36,18 @@ class Game
     end
   end
 
-  def computer_ship_placement
-    @ships.each do |ship|
-      @computer.place_ship(ship, @computer_board)
-    end
-    @messaging.computer_ships_placed
-    sleep(0.75)
-  end
-
   def game_setup_small
     @player_board = Board.new
     @computer_board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
-    @ships = [cruiser, submarine]
+    computer_cruiser = Ship.new("Cruiser", 3)
+    computer_submarine = Ship.new("Submarine", 2)
+    @player_ships = [cruiser, submarine]
+    @computer_ships = [computer_cruiser, computer_submarine]
     computer_ship_placement
     player_places_ships
+    game_play
   end
 
   def game_setup_standard
@@ -62,21 +58,37 @@ class Game
     submarine = Ship.new("Submarine", 3)
     battleship = Ship.new("Battleship", 4)
     carrier = Ship.new("Aircraft Carrier", 5)
-    @ships = [destroyer, cruiser, submarine, battleship, carrier]
+    computer_destroyer = Ship.new("Destroyer", 2)
+    computer_cruiser = Ship.new("Cruiser", 3)
+    computer_submarine = Ship.new("Submarine", 3)
+    computer_battleship = Ship.new("Battleship", 4)
+    computer_carrier = Ship.new("Aircraft Carrier", 5)
+    @player_ships = [destroyer, cruiser, submarine, battleship, carrier]
+    @computer_ships = [computer_destroyer, computer_cruiser, computer_submarine, computer_battleship, computer_carrier]
     computer_ship_placement
     player_places_ships
+    game_play
   end
 
+  def computer_ship_placement
+    @computer_ships.each do |ship|
+      @computer.place_ship(ship, @computer_board)
+    end
+    @messaging.computer_ships_placed
+    sleep(0.75)
+  end
+
+
   def player_places_ships
-    @messaging.ships_available(@ships)
+    @messaging.ships_available(@player_ships)
     @messaging.player_ship_placement_instruction
     @player_board.render(true)
-    @ships.each do |ship|
+    @player_ships.each do |ship|
       @messaging.player_valid_coordinates_ship(ship)
       ship_placement = gets.upcase.chomp
       placement_array = ship_placement.split(" ")
 
-      until @player_board.valid_placement?(submarine, placement_array) do
+      until @player_board.valid_placement?(ship, placement_array) do
         @messaging.player_invalid_coordinates
         @messaging.player_valid_coordinates_ship(ship)
         ship_placement = gets.upcase.chomp
@@ -123,7 +135,8 @@ class Game
     @messaging.player_fires_upon
     player_shot = gets.upcase.chomp
     sleep(0.75)
-    until @computer_board.valid_coordinate?(player_shot) do
+    until @computer_board.valid_coordinate?(player_shot) &&
+      !@computer_board.cells[player_shot].fired_upon? do
       @messaging.player_invalid_coordinates_to_fire_upon
       @messaging.player_fires_upon
       player_shot = gets.upcase.chomp
