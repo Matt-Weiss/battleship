@@ -43,6 +43,7 @@ class Messaging
   end
 
   def player_valid_coordinates_ship(ship)
+    puts "The #{ship.name} occupies #{ship.length} cells."
     puts "Enter coordinates for your #{ship.name}: "
   end
 
@@ -65,6 +66,8 @@ class Messaging
   end
 
   def player_board_header
+    ""
+    ""
     puts ("=" * 15) + "YOUR BOARD" + ("=" * 15)
   end
 

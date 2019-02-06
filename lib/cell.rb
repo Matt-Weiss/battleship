@@ -21,7 +21,7 @@ attr_reader :coordinate, :ship, :fired_upon
 
   def fire_upon
     @fired_upon = true
-    if @ship != nil
+    if @ship != nil && !ship.sunk?
       @ship.hit
     end
   end
